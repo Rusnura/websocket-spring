@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script type="text/javascript" src="WebSocketHandler.js"></script>
+  <title>Web Socket demonstration</title>
+</head>
+<body>
+  <script type="text/javascript">
+    let sendMessage = function() {
+      if (webSocketHandler.isConnected) {
+        let message = prompt("Hello, please enter a message: ");
+        webSocketHandler.send(message);
+      }
+    };
+
+    let webSocketHandler = new WebSocketHandler();
+    webSocketHandler.connect("localhost:8080/message", function (data) {
+      let message = data.data;
+      if (message === "bye") {
+        webSocketHandler.disconnect();
+      } else {
+        alert("New message has been received: " + message);
+        sendMessage();
+      }
+    });
+
+    sendMessage();
+  </script>
+</body>
+</html>
